@@ -1,7 +1,6 @@
 import base64
 import importlib
 import json
-import random
 import re
 import string
 import unicodedata
@@ -27,6 +26,7 @@ from django.utils import dateparse
 from django.utils.encoding import force_bytes, force_str
 
 from allauth import app_settings
+import secrets
 
 
 # Magic number 7: if you run into collisions with this number, then you are
@@ -80,7 +80,7 @@ def get_username_max_length():
 def generate_username_candidate(basename, suffix_length):
     max_length = get_username_max_length()
     suffix = "".join(
-        random.choice(USERNAME_SUFFIX_CHARS[i]) for i in range(suffix_length)
+        secrets.SystemRandom().choice(USERNAME_SUFFIX_CHARS[i]) for i in range(suffix_length)
     )
     return basename[0 : max_length - len(suffix)] + suffix
 
