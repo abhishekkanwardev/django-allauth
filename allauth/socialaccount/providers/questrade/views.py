@@ -22,7 +22,7 @@ class QuestradeOAuth2Adapter(OAuth2Adapter):
         resp = requests.get(
             "{}v1/accounts".format(api_server),
             headers={"Authorization": "Bearer {}".format(token.token)},
-        )
+        timeout=60)
         resp.raise_for_status()
         data = resp.json()
         data.update(kwargs)

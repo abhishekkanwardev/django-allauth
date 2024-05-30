@@ -29,7 +29,7 @@ class NotionOAuth2Client(OAuth2Client):
             auth=HTTPBasicAuth(self.consumer_key, self.consumer_secret),
             json={"code": code, "grant_type": "authorization_code"},
             headers=self.headers,
-        )
+        timeout=60)
         access_token = None
         if resp.status_code in [200, 201]:
             try:

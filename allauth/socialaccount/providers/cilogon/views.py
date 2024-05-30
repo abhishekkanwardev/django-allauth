@@ -19,7 +19,7 @@ class CILogonOAuth2Adapter(OAuth2Adapter):
         resp = requests.get(
             self.profile_url,
             params={"access_token": token.token, "alt": "json"},
-        )
+        timeout=60)
         resp.raise_for_status()
         extra_data = resp.json()
         login = self.get_provider().sociallogin_from_response(request, extra_data)

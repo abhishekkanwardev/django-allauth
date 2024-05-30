@@ -77,7 +77,7 @@ class OAuth2Client(object):
             data=data,
             headers=self.headers,
             auth=auth,
-        )
+        timeout=60)
 
         access_token = None
         if resp.status_code in [200, 201]:

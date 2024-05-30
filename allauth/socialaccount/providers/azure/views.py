@@ -35,7 +35,7 @@ class AzureOAuth2Adapter(OAuth2Adapter):
         headers = {"Authorization": "Bearer {0}".format(token.token)}
         extra_data = {}
 
-        resp = requests.get(self.profile_url, headers=headers)
+        resp = requests.get(self.profile_url, headers=headers, timeout=60)
 
         # See:
         #

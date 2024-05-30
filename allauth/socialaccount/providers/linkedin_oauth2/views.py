@@ -33,14 +33,14 @@ class LinkedInOAuth2Adapter(OAuth2Adapter):
 
         info = {}
         if app_settings.QUERY_EMAIL:
-            resp = requests.get(self.email_url, headers=headers)
+            resp = requests.get(self.email_url, headers=headers, timeout=60)
             # If this response goes wrong, that is not a blocker in order to
             # continue.
             if resp.ok:
                 info = resp.json()
 
         url = self.profile_url + "?projection=(%s)" % ",".join(fields)
-        resp = requests.get(url, headers=headers)
+        resp = requests.get(url, headers=headers, timeout=60)
         resp.raise_for_status()
         info.update(resp.json())
         return info

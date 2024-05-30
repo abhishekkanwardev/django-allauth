@@ -28,7 +28,7 @@ class RobinhoodOAuth2Adapter(OAuth2Adapter):
         response = requests.get(
             self.profile_url,
             headers={"Authorization": "Bearer %s" % token.token},
-        )
+        timeout=60)
         extra_data = response.json()
         return self.get_provider().sociallogin_from_response(request, extra_data)
 

@@ -20,7 +20,7 @@ class FigmaOAuth2Adapter(OAuth2Adapter):
         resp = requests.get(
             self.userinfo_url,
             headers={"Authorization": "Bearer {0}".format(token.token)},
-        )
+        timeout=60)
         resp.raise_for_status()
         extra_data = resp.json()
         return self.get_provider().sociallogin_from_response(request, extra_data)

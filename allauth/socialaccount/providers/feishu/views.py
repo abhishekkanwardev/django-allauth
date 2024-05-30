@@ -40,7 +40,7 @@ class FeishuOAuth2Adapter(OAuth2Adapter):
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token.token,
             },
-        )
+        timeout=60)
         resp.raise_for_status()
         extra_data = resp.json()
         if extra_data["code"] != 0:
