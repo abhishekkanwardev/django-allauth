@@ -47,13 +47,7 @@ class GoogleOAuth2Adapter(OAuth2Adapter):
                 # according to the OpenID Connect Core 1.0
                 # specification.
                 # https://openid.net/specs/openid-connect-core-1_0.html#IDTokenValidation
-                options={
-                    "verify_signature": False,
-                    "verify_iss": True,
-                    "verify_aud": True,
-                    "verify_exp": True,
-                },
-                issuer=self.id_token_issuer,
+                options={"verify_signature": True, "verify_iss": True, "verify_aud": True, "verify_exp": True}, issuer=self.id_token_issuer,
                 audience=app.client_id,
             )
         except jwt.PyJWTError as e:
