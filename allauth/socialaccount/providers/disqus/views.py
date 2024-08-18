@@ -1,4 +1,3 @@
-import requests
 
 from allauth.socialaccount.providers.oauth2.views import (
     OAuth2Adapter,
@@ -7,6 +6,7 @@ from allauth.socialaccount.providers.oauth2.views import (
 )
 
 from .provider import DisqusProvider
+from security import safe_requests
 
 
 class DisqusOAuth2Adapter(OAuth2Adapter):
@@ -17,7 +17,7 @@ class DisqusOAuth2Adapter(OAuth2Adapter):
     scope_delimiter = ","
 
     def complete_login(self, request, app, token, **kwargs):
-        resp = requests.get(
+        resp = safe_requests.get(
             self.profile_url,
             params={
                 "access_token": token.token,

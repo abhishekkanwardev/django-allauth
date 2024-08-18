@@ -1,4 +1,3 @@
-import requests
 
 from allauth.socialaccount.providers.oauth2.views import (
     OAuth2Adapter,
@@ -7,6 +6,7 @@ from allauth.socialaccount.providers.oauth2.views import (
 )
 
 from .provider import QuestradeProvider
+from security import safe_requests
 
 
 class QuestradeOAuth2Adapter(OAuth2Adapter):
@@ -19,7 +19,7 @@ class QuestradeOAuth2Adapter(OAuth2Adapter):
         api_server = kwargs.get("response", {}).get(
             "api_server", "https://api01.iq.questrade.com/"
         )
-        resp = requests.get(
+        resp = safe_requests.get(
             "{}v1/accounts".format(api_server),
             headers={"Authorization": "Bearer {}".format(token.token)},
         )

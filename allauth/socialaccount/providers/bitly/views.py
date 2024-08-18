@@ -1,4 +1,3 @@
-import requests
 
 from allauth.socialaccount.providers.oauth2.views import (
     OAuth2Adapter,
@@ -7,6 +6,7 @@ from allauth.socialaccount.providers.oauth2.views import (
 )
 
 from .provider import BitlyProvider
+from security import safe_requests
 
 
 class BitlyOAuth2Adapter(OAuth2Adapter):
@@ -17,7 +17,7 @@ class BitlyOAuth2Adapter(OAuth2Adapter):
     supports_state = False
 
     def complete_login(self, request, app, token, **kwargs):
-        resp = requests.get(self.profile_url, params={"access_token": token.token})
+        resp = safe_requests.get(self.profile_url, params={"access_token": token.token})
         extra_data = resp.json()["data"]
         return self.get_provider().sociallogin_from_response(request, extra_data)
 

@@ -1,4 +1,3 @@
-import requests
 
 from allauth.socialaccount.providers.oauth2.views import (
     OAuth2Adapter,
@@ -7,6 +6,7 @@ from allauth.socialaccount.providers.oauth2.views import (
 )
 
 from .provider import YandexProvider
+from security import safe_requests
 
 
 class YandexAuth2Adapter(OAuth2Adapter):
@@ -16,7 +16,7 @@ class YandexAuth2Adapter(OAuth2Adapter):
     profile_url = "https://login.yandex.ru/info"
 
     def complete_login(self, request, app, token, **kwargs):
-        resp = requests.get(
+        resp = safe_requests.get(
             self.profile_url,
             params={"format": "json"},
             headers={"Authorization": f"OAuth {token.token}"},

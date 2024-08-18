@@ -1,4 +1,3 @@
-import requests
 
 from django.conf import settings
 
@@ -9,6 +8,7 @@ from allauth.socialaccount.providers.oauth2.views import (
 )
 
 from .provider import MediaWikiProvider
+from security import safe_requests
 
 
 settings = getattr(settings, "SOCIALACCOUNT_PROVIDERS", {}).get("mediawiki", {})
@@ -22,7 +22,7 @@ class MediaWikiOAuth2Adapter(OAuth2Adapter):
     profile_url = REST_API + "/oauth2/resource/profile"
 
     def complete_login(self, request, app, token, **kwargs):
-        resp = requests.get(
+        resp = safe_requests.get(
             self.profile_url,
             headers={"Authorization": "Bearer {token}".format(token=token.token)},
         )

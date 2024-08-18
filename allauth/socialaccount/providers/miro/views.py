@@ -1,4 +1,3 @@
-import requests
 
 from allauth.socialaccount.providers.miro.provider import MiroProvider
 from allauth.socialaccount.providers.oauth2.views import (
@@ -6,6 +5,7 @@ from allauth.socialaccount.providers.oauth2.views import (
     OAuth2CallbackView,
     OAuth2LoginView,
 )
+from security import safe_requests
 
 
 class MiroOAuth2Adapter(OAuth2Adapter):
@@ -19,7 +19,7 @@ class MiroOAuth2Adapter(OAuth2Adapter):
             "Authorization": f"Bearer {token.token}",
             "Content-Type": "application/json",
         }
-        extra_data = requests.get(self.profile_url, headers=headers)
+        extra_data = safe_requests.get(self.profile_url, headers=headers)
         extra_data.raise_for_status()
         return self.get_provider().sociallogin_from_response(request, extra_data.json())
 

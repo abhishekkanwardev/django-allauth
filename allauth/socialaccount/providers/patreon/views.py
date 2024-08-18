@@ -3,8 +3,6 @@ Views for PatreonProvider
 https://www.patreon.com/platform/documentation/oauth
 """
 
-import requests
-
 from allauth.socialaccount.providers.oauth2.views import (
     OAuth2Adapter,
     OAuth2CallbackView,
@@ -12,6 +10,7 @@ from allauth.socialaccount.providers.oauth2.views import (
 )
 
 from .provider import API_URL, USE_API_V2, PatreonProvider
+from security import safe_requests
 
 
 class PatreonOAuth2Adapter(OAuth2Adapter):
@@ -28,7 +27,7 @@ class PatreonOAuth2Adapter(OAuth2Adapter):
     )
 
     def complete_login(self, request, app, token, **kwargs):
-        resp = requests.get(
+        resp = safe_requests.get(
             self.profile_url,
             headers={"Authorization": "Bearer " + token.token},
         )
@@ -42,7 +41,7 @@ class PatreonOAuth2Adapter(OAuth2Adapter):
                     "{0}/members/{1}?include="
                     "currently_entitled_tiers&fields%5Btier%5D=title"
                 ).format(API_URL, member_id)
-                resp_member = requests.get(
+                resp_member = safe_requests.get(
                     member_url,
                     headers={"Authorization": "Bearer " + token.token},
                 )

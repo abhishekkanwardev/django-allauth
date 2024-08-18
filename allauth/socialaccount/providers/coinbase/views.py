@@ -1,4 +1,3 @@
-import requests
 
 from allauth.socialaccount.providers.oauth2.views import (
     OAuth2Adapter,
@@ -7,6 +6,7 @@ from allauth.socialaccount.providers.oauth2.views import (
 )
 
 from .provider import CoinbaseProvider
+from security import safe_requests
 
 
 class CoinbaseOAuth2Adapter(OAuth2Adapter):
@@ -25,7 +25,7 @@ class CoinbaseOAuth2Adapter(OAuth2Adapter):
         return "https://api.coinbase.com/v2/user"
 
     def complete_login(self, request, app, token, **kwargs):
-        response = requests.get(self.profile_url, params={"access_token": token})
+        response = safe_requests.get(self.profile_url, params={"access_token": token})
         extra_data = response.json()
         return self.get_provider().sociallogin_from_response(request, extra_data)
 

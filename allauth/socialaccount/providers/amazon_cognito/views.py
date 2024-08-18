@@ -1,4 +1,3 @@
-import requests
 
 from allauth.socialaccount import app_settings
 from allauth.socialaccount.providers.amazon_cognito.provider import (
@@ -9,6 +8,7 @@ from allauth.socialaccount.providers.oauth2.views import (
     OAuth2CallbackView,
     OAuth2LoginView,
 )
+from security import safe_requests
 
 
 class AmazonCognitoOAuth2Adapter(OAuth2Adapter):
@@ -47,7 +47,7 @@ class AmazonCognitoOAuth2Adapter(OAuth2Adapter):
         headers = {
             "Authorization": "Bearer {}".format(access_token),
         }
-        extra_data = requests.get(self.profile_url, headers=headers)
+        extra_data = safe_requests.get(self.profile_url, headers=headers)
         extra_data.raise_for_status()
 
         return self.get_provider().sociallogin_from_response(request, extra_data.json())

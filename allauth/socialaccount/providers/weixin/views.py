@@ -1,4 +1,3 @@
-import requests
 
 from allauth.socialaccount.providers.oauth2.views import (
     OAuth2Adapter,
@@ -8,6 +7,7 @@ from allauth.socialaccount.providers.oauth2.views import (
 
 from .client import WeixinOAuth2Client
 from .provider import WeixinProvider
+from security import safe_requests
 
 
 class WeixinOAuth2Adapter(OAuth2Adapter):
@@ -26,7 +26,7 @@ class WeixinOAuth2Adapter(OAuth2Adapter):
 
     def complete_login(self, request, app, token, **kwargs):
         openid = kwargs.get("response", {}).get("openid")
-        resp = requests.get(
+        resp = safe_requests.get(
             self.profile_url,
             params={"access_token": token.token, "openid": openid},
         )

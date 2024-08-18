@@ -1,4 +1,3 @@
-import requests
 
 from django.conf import settings
 
@@ -9,6 +8,7 @@ from allauth.socialaccount.providers.oauth2.views import (
 )
 
 from .provider import DwollaProvider
+from security import safe_requests
 
 
 ENVIRONMENTS = {
@@ -42,7 +42,7 @@ class DwollaOAuth2Adapter(OAuth2Adapter):
     authorize_url = AUTH_URL
 
     def complete_login(self, request, app, token, response, **kwargs):
-        resp = requests.get(
+        resp = safe_requests.get(
             response["_links"]["account"]["href"],
             headers={
                 "authorization": "Bearer %s" % token.token,

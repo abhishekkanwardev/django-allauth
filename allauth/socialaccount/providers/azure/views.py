@@ -1,7 +1,5 @@
 from __future__ import unicode_literals
 
-import requests
-
 from allauth.socialaccount.providers.oauth2.views import (
     OAuth2Adapter,
     OAuth2CallbackView,
@@ -9,6 +7,7 @@ from allauth.socialaccount.providers.oauth2.views import (
 )
 
 from .provider import AzureProvider
+from security import safe_requests
 
 
 LOGIN_URL = "https://login.microsoftonline.com/common/oauth2/v2.0"
@@ -35,7 +34,7 @@ class AzureOAuth2Adapter(OAuth2Adapter):
         headers = {"Authorization": "Bearer {0}".format(token.token)}
         extra_data = {}
 
-        resp = requests.get(self.profile_url, headers=headers)
+        resp = safe_requests.get(self.profile_url, headers=headers)
 
         # See:
         #

@@ -1,4 +1,3 @@
-import requests
 
 from allauth.socialaccount.providers.oauth2.views import (
     OAuth2Adapter,
@@ -7,6 +6,7 @@ from allauth.socialaccount.providers.oauth2.views import (
 )
 
 from .provider import HubicProvider
+from security import safe_requests
 
 
 class HubicOAuth2Adapter(OAuth2Adapter):
@@ -18,7 +18,7 @@ class HubicOAuth2Adapter(OAuth2Adapter):
 
     def complete_login(self, request, app, token, **kwargs):
         token_type = kwargs["response"]["token_type"]
-        resp = requests.get(
+        resp = safe_requests.get(
             self.profile_url,
             headers={"Authorization": "%s %s" % (token_type, token.token)},
         )

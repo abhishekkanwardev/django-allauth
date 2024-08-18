@@ -1,4 +1,3 @@
-import requests
 
 from allauth.socialaccount.providers.oauth2.views import (
     OAuth2Adapter,
@@ -7,6 +6,7 @@ from allauth.socialaccount.providers.oauth2.views import (
 )
 
 from .provider import TwitterOAuth2Provider
+from security import safe_requests
 
 
 class TwitterOAuth2Adapter(OAuth2Adapter):
@@ -26,7 +26,7 @@ class TwitterOAuth2Adapter(OAuth2Adapter):
         headers.update(self.get_provider().get_settings().get("HEADERS", {}))
         headers["Authorization"] = " ".join(["Bearer", token.token])
 
-        resp = requests.get(
+        resp = safe_requests.get(
             url=self.profile_url,
             params={"user.fields": ",".join(fields)},
             headers=headers,

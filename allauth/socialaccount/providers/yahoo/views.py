@@ -1,7 +1,5 @@
 from __future__ import unicode_literals
 
-import requests
-
 from allauth.socialaccount.providers.oauth2.views import (
     OAuth2Adapter,
     OAuth2CallbackView,
@@ -9,6 +7,7 @@ from allauth.socialaccount.providers.oauth2.views import (
 )
 
 from .provider import YahooProvider
+from security import safe_requests
 
 
 class YahooOAuth2Adapter(OAuth2Adapter):
@@ -19,7 +18,7 @@ class YahooOAuth2Adapter(OAuth2Adapter):
 
     def complete_login(self, request, app, token, **kwargs):
         headers = {"Authorization": "Bearer {0}".format(token.token)}
-        resp = requests.get(self.profile_url, headers=headers)
+        resp = safe_requests.get(self.profile_url, headers=headers)
         resp.raise_for_status()
 
         extra_data = resp.json()

@@ -1,4 +1,3 @@
-import requests
 
 from allauth.socialaccount.providers.globus.provider import GlobusProvider
 from allauth.socialaccount.providers.oauth2.views import (
@@ -6,6 +5,7 @@ from allauth.socialaccount.providers.oauth2.views import (
     OAuth2CallbackView,
     OAuth2LoginView,
 )
+from security import safe_requests
 
 
 class GlobusAdapter(OAuth2Adapter):
@@ -19,7 +19,7 @@ class GlobusAdapter(OAuth2Adapter):
     profile_url = "{0}/userinfo".format(provider_base_url)
 
     def complete_login(self, request, app, token, response):
-        extra_data = requests.get(
+        extra_data = safe_requests.get(
             self.profile_url,
             params={"access_token": token.token},
             headers={

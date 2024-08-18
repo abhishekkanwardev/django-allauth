@@ -1,4 +1,3 @@
-import requests
 
 from django.urls import reverse
 
@@ -8,6 +7,7 @@ from allauth.socialaccount.providers.oauth2.views import (
     OAuth2LoginView,
 )
 from allauth.utils import build_absolute_uri
+from security import safe_requests
 
 
 class OpenIDConnectAdapter(OAuth2Adapter):
@@ -21,7 +21,7 @@ class OpenIDConnectAdapter(OAuth2Adapter):
     def openid_config(self):
         if not hasattr(self, "_openid_config"):
             server_url = self.get_provider().server_url
-            resp = requests.get(server_url)
+            resp = safe_requests.get(server_url)
             resp.raise_for_status()
             self._openid_config = resp.json()
         return self._openid_config
@@ -48,7 +48,7 @@ class OpenIDConnectAdapter(OAuth2Adapter):
         return self.openid_config["userinfo_endpoint"]
 
     def complete_login(self, request, app, token, response):
-        response = requests.get(
+        response = safe_requests.get(
             self.profile_url, headers={"Authorization": "Bearer " + str(token)}
         )
         response.raise_for_status()

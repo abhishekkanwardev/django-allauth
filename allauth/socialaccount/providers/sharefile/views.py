@@ -1,4 +1,3 @@
-import requests
 
 from allauth.socialaccount import app_settings
 from allauth.socialaccount.providers.oauth2.views import (
@@ -8,6 +7,7 @@ from allauth.socialaccount.providers.oauth2.views import (
 )
 
 from .provider import ShareFileProvider
+from security import safe_requests
 
 
 class ShareFileOAuth2Adapter(OAuth2Adapter):
@@ -29,7 +29,7 @@ class ShareFileOAuth2Adapter(OAuth2Adapter):
 
     def complete_login(self, request, app, token, response):
         headers = {"Authorization": "Bearer {}".format(token.token)}
-        extra_data = requests.get(self.profile_url, headers=headers).json()
+        extra_data = safe_requests.get(self.profile_url, headers=headers).json()
         return self.get_provider().sociallogin_from_response(request, extra_data)
 
 

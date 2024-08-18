@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import requests
 
 from allauth.socialaccount import app_settings
 from allauth.socialaccount.providers.netiq.provider import NetIQProvider
@@ -8,6 +7,7 @@ from allauth.socialaccount.providers.oauth2.views import (
     OAuth2CallbackView,
     OAuth2LoginView,
 )
+from security import safe_requests
 
 
 class NetIQOAuth2Adapter(OAuth2Adapter):
@@ -40,7 +40,7 @@ class NetIQOAuth2Adapter(OAuth2Adapter):
         :return:
         """
 
-        resp = requests.get(
+        resp = safe_requests.get(
             self.userinfo_url,
             headers={"Authorization": "Bearer {}".format(token.token)},
         )
