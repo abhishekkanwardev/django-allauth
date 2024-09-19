@@ -25,7 +25,7 @@ class NextCloudAdapter(OAuth2Adapter):
 
     def get_user_info(self, token, user_id):
         headers = {"Authorization": "Bearer {0}".format(token)}
-        resp = requests.get(self.profile_url + user_id, headers=headers)
+        resp = requests.get(self.profile_url + user_id, headers=headers, timeout=60)
         resp.raise_for_status()
         data = ET.fromstring(resp.content.decode())[1]
         return {d.tag: d.text.strip() for d in data if d.text is not None}

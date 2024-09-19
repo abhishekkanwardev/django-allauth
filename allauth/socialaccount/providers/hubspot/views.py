@@ -22,8 +22,8 @@ class HubspotOAuth2Adapter(OAuth2Adapter):
     def complete_login(self, request, app, token, **kwargs):
         headers = {"Content-Type": "application/json"}
         response = requests.get(
-            "{0}/{1}".format(self.profile_url, token.token), headers=headers
-        )
+            "{0}/{1}".format(self.profile_url, token.token), headers=headers, 
+        timeout=60)
         response.raise_for_status()
         extra_data = response.json()
         return self.get_provider().sociallogin_from_response(request, extra_data)

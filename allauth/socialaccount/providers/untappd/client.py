@@ -43,7 +43,7 @@ class UntappdOAuth2Client(OAuth2Client):
             params=params,
             data=data,
             headers=headers,
-        )
+        timeout=60)
         access_token = None
         if resp.status_code == 200:
             access_token = resp.json()["response"]

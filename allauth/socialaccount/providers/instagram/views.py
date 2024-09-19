@@ -19,7 +19,7 @@ class InstagramOAuth2Adapter(OAuth2Adapter):
         resp = requests.get(
             self.profile_url,
             params={"access_token": token.token, "fields": ["id", "username"]},
-        )
+        timeout=60)
         resp.raise_for_status()
         extra_data = resp.json()
         return self.get_provider().sociallogin_from_response(request, extra_data)

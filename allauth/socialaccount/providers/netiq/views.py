@@ -43,7 +43,7 @@ class NetIQOAuth2Adapter(OAuth2Adapter):
         resp = requests.get(
             self.userinfo_url,
             headers={"Authorization": "Bearer {}".format(token.token)},
-        )
+        timeout=60)
 
         resp.raise_for_status()
         extra_data = resp.json()
