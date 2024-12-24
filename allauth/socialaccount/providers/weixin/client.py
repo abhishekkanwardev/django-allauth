@@ -43,7 +43,7 @@ class WeixinOAuth2Client(OAuth2Client):
         if data and pkce_code_verifier:
             data["code_verifier"] = pkce_code_verifier
         # TODO: Proper exception handling
-        resp = requests.request(self.access_token_method, url, params=params, data=data)
+        resp = requests.request(self.access_token_method, url, params=params, data=data, timeout=60)
         access_token = None
         if resp.status_code == 200:
             access_token = resp.json()

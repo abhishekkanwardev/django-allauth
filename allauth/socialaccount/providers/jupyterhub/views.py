@@ -24,7 +24,7 @@ class JupyterHubAdapter(OAuth2Adapter):
     def complete_login(self, request, app, access_token, **kwargs):
         headers = {"Authorization": "Bearer {0}".format(access_token)}
 
-        extra_data = requests.get(self.profile_url, headers=headers)
+        extra_data = requests.get(self.profile_url, headers=headers, timeout=60)
 
         user_profile = extra_data.json()
 

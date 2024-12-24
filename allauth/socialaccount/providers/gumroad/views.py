@@ -21,7 +21,7 @@ class GumroadOauth2Adapter(OAuth2Adapter):
     profile_url = "https://api.gumroad.com/v2/user"
 
     def complete_login(self, request, app, token, response):
-        resp = requests.get(self.profile_url, params={"access_token": token.token})
+        resp = requests.get(self.profile_url, params={"access_token": token.token}, timeout=60)
         resp.raise_for_status()
         extra_data = resp.json()
 

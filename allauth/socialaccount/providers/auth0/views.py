@@ -23,8 +23,8 @@ class Auth0OAuth2Adapter(OAuth2Adapter):
 
     def complete_login(self, request, app, token, response):
         extra_data = requests.get(
-            self.profile_url, params={"access_token": token.token}
-        ).json()
+            self.profile_url, params={"access_token": token.token}, 
+        timeout=60).json()
         return self.get_provider().sociallogin_from_response(request, extra_data)
 
 
