@@ -1,7 +1,6 @@
 import base64
 import hashlib
 import json
-import random
 import requests
 import warnings
 from urllib.parse import parse_qs, urlparse
@@ -26,6 +25,7 @@ from allauth.tests import (
     patch,
 )
 from allauth.utils import get_user_model
+import secrets
 
 
 def setup_app(provider_id):
@@ -72,7 +72,7 @@ class OAuthTestsMixin(object):
         sociallogin = resp.context["form"].sociallogin
         data = dict(
             email=user_email(sociallogin.user),
-            username=str(random.randrange(1000, 10000000)),
+            username=str(secrets.SystemRandom().randrange(1000, 10000000)),
         )
         resp = self.client.post(reverse("socialaccount_signup"), data=data)
         self.assertRedirects(resp, "/accounts/profile/", fetch_redirect_response=False)
