@@ -181,3 +181,4 @@ try:
     from .local_settings import *  # noqa
 except ImportError:
     pass
+SESSION_COOKIE_SECURE = True
