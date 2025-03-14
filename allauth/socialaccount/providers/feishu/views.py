@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import requests
 
 from django.urls import reverse
 
@@ -15,6 +14,7 @@ from allauth.utils import build_absolute_uri
 
 from .client import FeishuOAuth2Client
 from .provider import FeishuProvider
+from security import safe_requests
 
 
 class FeishuOAuth2Adapter(OAuth2Adapter):
@@ -34,7 +34,7 @@ class FeishuOAuth2Adapter(OAuth2Adapter):
         return url
 
     def complete_login(self, request, app, token, **kwargs):
-        resp = requests.get(
+        resp = safe_requests.get(
             self.user_info_url,
             headers={
                 "Content-Type": "application/json",

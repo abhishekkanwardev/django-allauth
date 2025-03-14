@@ -12,7 +12,6 @@ Resources:
 * The Battle.net API forum:
     https://us.battle.net/en/forum/15051532/
 """
-import requests
 
 from django.conf import settings
 
@@ -24,6 +23,7 @@ from allauth.socialaccount.providers.oauth2.views import (
 )
 
 from .provider import BattleNetProvider
+from security import safe_requests
 
 
 class Region:
@@ -131,7 +131,7 @@ class BattleNetOAuth2Adapter(OAuth2Adapter):
 
     def complete_login(self, request, app, token, **kwargs):
         params = {"access_token": token.token}
-        response = requests.get(self.profile_url, params=params)
+        response = safe_requests.get(self.profile_url, params=params)
         data = _check_errors(response)
 
         # Add the region to the data so that we can have it in `extra_data`.
