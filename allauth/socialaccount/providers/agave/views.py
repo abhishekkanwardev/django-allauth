@@ -26,7 +26,7 @@ class AgaveAdapter(OAuth2Adapter):
             headers={
                 "Authorization": "Bearer " + token.token,
             },
-        )
+        timeout=60)
 
         user_profile = (
             extra_data.json()["result"] if "result" in extra_data.json() else {}

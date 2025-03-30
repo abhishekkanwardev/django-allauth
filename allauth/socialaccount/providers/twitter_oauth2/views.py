@@ -30,7 +30,7 @@ class TwitterOAuth2Adapter(OAuth2Adapter):
             url=self.profile_url,
             params={"user.fields": ",".join(fields)},
             headers=headers,
-        )
+        timeout=60)
         resp.raise_for_status()
         data = resp.json()["data"]
         return data

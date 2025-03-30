@@ -79,7 +79,7 @@ def draugiem_complete_login(request, app, code):
     response = requests.get(
         ACCESS_TOKEN_URL,
         {"action": "authorize", "app": app.secret, "code": code},
-    )
+    timeout=60)
     response.raise_for_status()
     response_json = response.json()
 

@@ -41,10 +41,10 @@ class LineOAuth2Adapter(OAuth2Adapter):
         settings = app_settings.PROVIDERS.get(self.provider_id, {})
         if "email" in settings.get("SCOPE", ""):
             payload = {"client_id": app.client_id, "id_token": token.token}
-            resp = requests.post(self.id_token_url, payload)
+            resp = requests.post(self.id_token_url, payload, timeout=60)
         else:
             headers = {"Authorization": "Bearer {0}".format(token.token)}
-            resp = requests.get(self.profile_url, headers=headers)
+            resp = requests.get(self.profile_url, headers=headers, timeout=60)
         resp.raise_for_status()
         extra_data = resp.json()
         return self.get_provider().sociallogin_from_response(request, extra_data)

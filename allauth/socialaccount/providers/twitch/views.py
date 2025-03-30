@@ -21,7 +21,7 @@ class TwitchOAuth2Adapter(OAuth2Adapter):
             "Authorization": "Bearer {}".format(token.token),
             "Client-ID": app.client_id,
         }
-        response = requests.get(self.profile_url, headers=headers)
+        response = requests.get(self.profile_url, headers=headers, timeout=60)
 
         data = response.json()
         if response.status_code >= 400:

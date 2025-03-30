@@ -31,7 +31,7 @@ class PatreonOAuth2Adapter(OAuth2Adapter):
         resp = requests.get(
             self.profile_url,
             headers={"Authorization": "Bearer " + token.token},
-        )
+        timeout=60)
         extra_data = resp.json().get("data")
 
         if USE_API_V2:
@@ -45,7 +45,7 @@ class PatreonOAuth2Adapter(OAuth2Adapter):
                 resp_member = requests.get(
                     member_url,
                     headers={"Authorization": "Bearer " + token.token},
-                )
+                timeout=60)
                 pledge_title = resp_member.json()["included"][0]["attributes"]["title"]
                 extra_data["pledge_level"] = pledge_title
             except (KeyError, IndexError):

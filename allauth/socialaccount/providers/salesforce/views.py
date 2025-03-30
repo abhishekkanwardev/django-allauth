@@ -29,7 +29,7 @@ class SalesforceOAuth2Adapter(OAuth2Adapter):
         return "{}/services/oauth2/userinfo".format(self.base_url)
 
     def complete_login(self, request, app, token, **kwargs):
-        resp = requests.get(self.userinfo_url, params={"oauth_token": token})
+        resp = requests.get(self.userinfo_url, params={"oauth_token": token}, timeout=60)
         resp.raise_for_status()
         extra_data = resp.json()
         return self.get_provider().sociallogin_from_response(request, extra_data)
