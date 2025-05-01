@@ -1,5 +1,4 @@
 import requests
-import xml.etree.ElementTree as ET
 
 from allauth.socialaccount import app_settings
 from allauth.socialaccount.providers.oauth2.views import (
@@ -9,6 +8,7 @@ from allauth.socialaccount.providers.oauth2.views import (
 )
 
 from .provider import NextCloudProvider
+import defusedxml.ElementTree
 
 
 class NextCloudAdapter(OAuth2Adapter):
@@ -27,7 +27,7 @@ class NextCloudAdapter(OAuth2Adapter):
         headers = {"Authorization": "Bearer {0}".format(token)}
         resp = requests.get(self.profile_url + user_id, headers=headers)
         resp.raise_for_status()
-        data = ET.fromstring(resp.content.decode())[1]
+        data = defusedxml.ElementTree.fromstring(resp.content.decode())[1]
         return {d.tag: d.text.strip() for d in data if d.text is not None}
 
 

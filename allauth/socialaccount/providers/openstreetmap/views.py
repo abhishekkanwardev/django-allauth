@@ -1,4 +1,3 @@
-from xml.etree import ElementTree
 from xml.parsers.expat import ExpatError
 
 from allauth.socialaccount.providers.oauth.client import OAuth
@@ -9,6 +8,7 @@ from allauth.socialaccount.providers.oauth.views import (
 )
 
 from .provider import OpenStreetMapProvider
+import defusedxml.ElementTree
 
 
 class OpenStreetMapAPI(OAuth):
@@ -17,7 +17,7 @@ class OpenStreetMapAPI(OAuth):
     def get_user_info(self):
         raw_xml = self.query(self.url)
         try:
-            user_element = ElementTree.fromstring(raw_xml).find("user")
+            user_element = defusedxml.ElementTree.fromstring(raw_xml).find("user")
             user_info = user_element.attrib
             user_avatar = user_element.find("img")
             if user_avatar is not None:
