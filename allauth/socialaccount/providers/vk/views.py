@@ -1,4 +1,3 @@
-import requests
 
 from allauth.socialaccount.providers.oauth2.views import (
     OAuth2Adapter,
@@ -7,6 +6,7 @@ from allauth.socialaccount.providers.oauth2.views import (
 )
 
 from .provider import VKProvider
+from security import safe_requests
 
 
 USER_FIELDS = [
@@ -50,7 +50,7 @@ class VKOAuth2Adapter(OAuth2Adapter):
         }
         if uid:
             params["user_ids"] = uid
-        resp = requests.get(self.profile_url, params=params)
+        resp = safe_requests.get(self.profile_url, params=params)
         resp.raise_for_status()
         extra_data = resp.json()["response"][0]
         email = kwargs["response"].get("email")

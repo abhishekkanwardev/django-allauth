@@ -1,4 +1,3 @@
-import requests
 
 from allauth.socialaccount.providers.oauth2.views import (
     OAuth2Adapter,
@@ -7,6 +6,7 @@ from allauth.socialaccount.providers.oauth2.views import (
 )
 
 from .provider import FigmaProvider
+from security import safe_requests
 
 
 class FigmaOAuth2Adapter(OAuth2Adapter):
@@ -17,7 +17,7 @@ class FigmaOAuth2Adapter(OAuth2Adapter):
     userinfo_url = "https://api.figma.com/v1/me"
 
     def complete_login(self, request, app, token, **kwargs):
-        resp = requests.get(
+        resp = safe_requests.get(
             self.userinfo_url,
             headers={"Authorization": "Bearer {0}".format(token.token)},
         )

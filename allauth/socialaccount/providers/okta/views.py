@@ -1,4 +1,3 @@
-import requests
 
 from allauth.socialaccount import app_settings
 from allauth.socialaccount.providers.oauth2.views import (
@@ -8,6 +7,7 @@ from allauth.socialaccount.providers.oauth2.views import (
 )
 
 from .provider import OktaProvider
+from security import safe_requests
 
 
 class OktaOAuth2Adapter(OAuth2Adapter):
@@ -44,7 +44,7 @@ class OktaOAuth2Adapter(OAuth2Adapter):
         :return:
         """
 
-        resp = requests.get(
+        resp = safe_requests.get(
             self.userinfo_url,
             headers={"Authorization": "Bearer {}".format(token.token)},
         )

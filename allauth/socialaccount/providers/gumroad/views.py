@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import requests
 
 from allauth.socialaccount import app_settings
 from allauth.socialaccount.providers.gumroad.provider import GumroadProvider
@@ -8,6 +7,7 @@ from allauth.socialaccount.providers.oauth2.views import (
     OAuth2CallbackView,
     OAuth2LoginView,
 )
+from security import safe_requests
 
 
 class GumroadOauth2Adapter(OAuth2Adapter):
@@ -21,7 +21,7 @@ class GumroadOauth2Adapter(OAuth2Adapter):
     profile_url = "https://api.gumroad.com/v2/user"
 
     def complete_login(self, request, app, token, response):
-        resp = requests.get(self.profile_url, params={"access_token": token.token})
+        resp = safe_requests.get(self.profile_url, params={"access_token": token.token})
         resp.raise_for_status()
         extra_data = resp.json()
 

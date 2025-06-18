@@ -3,8 +3,6 @@ Views for PatreonProvider
 https://www.patreon.com/platform/documentation/oauth
 """
 
-import requests
-
 from allauth.socialaccount.providers.oauth2.views import (
     OAuth2Adapter,
     OAuth2CallbackView,
@@ -12,6 +10,7 @@ from allauth.socialaccount.providers.oauth2.views import (
 )
 
 from .provider import VimeoOAuth2Provider
+from security import safe_requests
 
 
 class VimeoOAuth2Adapter(OAuth2Adapter):
@@ -21,7 +20,7 @@ class VimeoOAuth2Adapter(OAuth2Adapter):
     profile_url = "https://api.vimeo.com/me/"
 
     def complete_login(self, request, app, token, **kwargs):
-        resp = requests.get(
+        resp = safe_requests.get(
             self.profile_url,
             headers={"Authorization": "Bearer " + token.token},
         )
