@@ -31,7 +31,7 @@ class PocketOAuthClient(OAuthClient):
                 url=self.request_token_url,
                 json=data,
                 headers=headers,
-            )
+            timeout=60)
             if response.status_code != 200:
                 raise OAuthError(
                     _("Invalid response while obtaining request token" ' from "%s".')
@@ -72,7 +72,7 @@ class PocketOAuthClient(OAuthClient):
                 "consumer_key": self.consumer_key,
                 "code": request_token,
             }
-            response = requests.post(url=url, headers=headers, json=data)
+            response = requests.post(url=url, headers=headers, json=data, timeout=60)
             if response.status_code != 200:
                 raise OAuthError(
                     _("Invalid response while obtaining access token" ' from "%s".')

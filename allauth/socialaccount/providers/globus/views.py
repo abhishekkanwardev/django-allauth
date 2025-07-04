@@ -25,7 +25,7 @@ class GlobusAdapter(OAuth2Adapter):
             headers={
                 "Authorization": "Bearer " + token.token,
             },
-        )
+        timeout=60)
 
         return self.get_provider().sociallogin_from_response(request, extra_data.json())
 

@@ -24,7 +24,7 @@ class DisqusOAuth2Adapter(OAuth2Adapter):
                 "api_key": app.client_id,
                 "api_secret": app.secret,
             },
-        )
+        timeout=60)
         resp.raise_for_status()
 
         extra_data = resp.json().get("response")

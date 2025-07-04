@@ -42,7 +42,7 @@ class FeishuOAuth2Client(OAuth2Client):
         url = self.app_access_token_url
 
         # TODO: Proper exception handling
-        resp = requests.request("POST", url, data=data)
+        resp = requests.request("POST", url, data=data, timeout=60)
         resp.raise_for_status()
         access_token = resp.json()
         if not access_token or "app_access_token" not in access_token:
@@ -70,7 +70,7 @@ class FeishuOAuth2Client(OAuth2Client):
             params=params,
             data=json.dumps(data),
             headers={"Content-Type": "application/json"},
-        )
+        timeout=60)
         resp.raise_for_status()
         access_token = resp.json()
         if (

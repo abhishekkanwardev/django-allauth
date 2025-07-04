@@ -27,8 +27,8 @@ class CleverOAuth2Adapter(OAuth2Adapter):
     def get_data(self, token):
         # Verify the user first
         resp = requests.get(
-            self.identity_url, headers={"Authorization": "Bearer {}".format(token)}
-        )
+            self.identity_url, headers={"Authorization": "Bearer {}".format(token)}, 
+        timeout=60)
         if resp.status_code != 200:
             raise OAuth2Error()
         resp = resp.json()
@@ -36,7 +36,7 @@ class CleverOAuth2Adapter(OAuth2Adapter):
         user_details = requests.get(
             "{}/{}".format(self.user_details_url, user_id),
             headers={"Authorization": "Bearer {}".format(token)},
-        )
+        timeout=60)
         user_details.raise_for_status()
         user_details = user_details.json()
         return user_details

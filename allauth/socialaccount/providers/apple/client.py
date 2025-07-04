@@ -72,8 +72,8 @@ class AppleOAuth2Client(OAuth2Client):
             data["code_verifier"] = pkce_code_verifier
         self._strip_empty_keys(data)
         resp = requests.request(
-            self.access_token_method, url, data=data, headers=self.headers
-        )
+            self.access_token_method, url, data=data, headers=self.headers, 
+        timeout=60)
         access_token = None
         if resp.status_code in [200, 201]:
             try:

@@ -79,7 +79,7 @@ class MicrosoftGraphOAuth2Adapter(OAuth2Adapter):
             self.profile_url,
             params=self.profile_url_params,
             headers=headers,
-        )
+        timeout=60)
         extra_data = _check_errors(response)
         return self.get_provider().sociallogin_from_response(request, extra_data)
 

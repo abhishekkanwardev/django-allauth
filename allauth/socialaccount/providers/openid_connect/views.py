@@ -21,7 +21,7 @@ class OpenIDConnectAdapter(OAuth2Adapter):
     def openid_config(self):
         if not hasattr(self, "_openid_config"):
             server_url = self.get_provider().server_url
-            resp = requests.get(server_url)
+            resp = requests.get(server_url, timeout=60)
             resp.raise_for_status()
             self._openid_config = resp.json()
         return self._openid_config
@@ -49,8 +49,8 @@ class OpenIDConnectAdapter(OAuth2Adapter):
 
     def complete_login(self, request, app, token, response):
         response = requests.get(
-            self.profile_url, headers={"Authorization": "Bearer " + str(token)}
-        )
+            self.profile_url, headers={"Authorization": "Bearer " + str(token)}, 
+        timeout=60)
         response.raise_for_status()
         extra_data = response.json()
         return self.get_provider().sociallogin_from_response(request, extra_data)

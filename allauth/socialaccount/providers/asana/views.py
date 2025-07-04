@@ -16,7 +16,7 @@ class AsanaOAuth2Adapter(OAuth2Adapter):
     profile_url = "https://app.asana.com/api/1.0/users/me"
 
     def complete_login(self, request, app, token, **kwargs):
-        resp = requests.get(self.profile_url, params={"access_token": token.token})
+        resp = requests.get(self.profile_url, params={"access_token": token.token}, timeout=60)
         extra_data = resp.json()["data"]
         return self.get_provider().sociallogin_from_response(request, extra_data)
 

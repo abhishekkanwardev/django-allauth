@@ -23,7 +23,7 @@ class TrelloOAuthAdapter(OAuthAdapter):
             base="https://api.trello.com/1/members/me",
             query=urlencode({"key": app.key, "token": response.get("oauth_token")}),
         )
-        resp = requests.get(info_url)
+        resp = requests.get(info_url, timeout=60)
         resp.raise_for_status()
         extra_data = resp.json()
         result = self.get_provider().sociallogin_from_response(request, extra_data)
